@@ -1,0 +1,9 @@
+*.*
+!*.java
+!*.xml
+!*.gitignore
+*ExampleUnitTest.java
+*ExampleInstrumentedTest.java
+ic_launcher*
+gradle*
+
