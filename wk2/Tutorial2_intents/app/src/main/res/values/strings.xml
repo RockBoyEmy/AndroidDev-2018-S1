@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Intents Tutorial Wk2</string>
+    <string name="btn_timer">Start Timer</string>
+    <string name="btn_dial">Dial Number</string>
+    <string name="btn_browser">Open Browser</string>
+    <string name="btn_map">Show Map</string>
+</resources>
