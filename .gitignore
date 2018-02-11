@@ -2,6 +2,8 @@
 !*.java
 !*.xml
 !*.gitignore
+!README*
+!bub*
 *ExampleUnitTest.java
 *ExampleInstrumentedTest.java
 ic_launcher*
