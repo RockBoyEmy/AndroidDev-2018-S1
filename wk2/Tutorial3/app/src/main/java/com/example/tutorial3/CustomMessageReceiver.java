@@ -11,6 +11,6 @@ public class CustomMessageReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, intent.getExtras().get("Message").toString(), Toast.LENGTH_LONG).show();
-        Log.d("intent broadcast: ", intent.getExtras().get("Message").toString());
+        //Log.d("intent broadcast: ", intent.getExtras().get("Message").toString());
     }
 }

@@ -15,14 +15,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             Toast.makeText(context, "Battery low!", Toast.LENGTH_SHORT).show();
             //Log.d("battery: ", "low");
         }
-        if(action.equals(Intent.ACTION_BATTERY_OKAY)){
-            Toast.makeText(context, "Battery is ok right now...", Toast.LENGTH_SHORT).show();
-            //Log.d("battery: ", "okay");
-        }
-        if(action.equals(Intent.ACTION_POWER_CONNECTED)) {
-            Toast.makeText(context, "Power connected!", Toast.LENGTH_SHORT).show();
-        }
-        if(action.equals(Intent.ACTION_AIRPLANE_MODE_CHANGED)){
+        else if(action.equals(Intent.ACTION_AIRPLANE_MODE_CHANGED)){
             Toast.makeText(context, "Airplanes!", Toast.LENGTH_SHORT).show();
         }
     }

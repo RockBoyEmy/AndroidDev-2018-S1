@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginStatus = (TextView) findViewById(R.id.statusTextView);
+        loginStatus = (TextView)findViewById(R.id.statusTextView);
         loginButton = (Button)findViewById(R.id.loginBtn_act1);
 
         loginButton.setOnClickListener(this);
@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == LOGIN_REQUEST) {
             if(resultCode == RESULT_SUCCESS) {
                 loginStatus.setText("Status: Logged in");
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
             }
             else {
                 loginStatus.setText("Status: Login failure!");
-                Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show();
             }
         }
     }
