@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Keypad_Lab_Wk1</string>
+    <string name="app_name">Phone App</string>
+    <string name="dialBtn">Open Dialer</string>
 </resources>
