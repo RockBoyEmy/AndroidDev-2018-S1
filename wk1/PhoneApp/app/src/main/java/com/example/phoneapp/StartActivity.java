@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 public class StartActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button dialerButton;
+    Button dialerButton, browserButton;
     TextView timeField;
     Handler timeHandler;
     Runnable timeRunnable;
@@ -26,6 +26,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
         dialerButton = (Button)findViewById(R.id.dialerBtn);
         dialerButton.setOnClickListener(this);
+        browserButton = (Button)findViewById(R.id.browserBtn);
+        browserButton.setOnClickListener(this);
         timeField = (TextView)findViewById(R.id.clockView);
 
         timeHandler = new Handler() {
@@ -47,12 +49,20 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             case R.id.dialerBtn:
                 openDialer();
                 break;
+            case R.id.browserBtn:
+                openBrowsingActivity();
+                break;
         }
     }
 
     public void openDialer(){
         Intent openDialerIntent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(openDialerIntent);
+    }
+
+    public void openBrowsingActivity(){
+        Intent openBrowsingIntent = new Intent(getApplicationContext(), BrowsingActivity.class);
+        startActivity(openBrowsingIntent);
     }
 
     public void updateTime() {

@@ -1,5 +1,11 @@
 package com.example.phoneapp;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button b1, b2, b3, b4, b5, b6, b7, b8, b9, b0, bAsterisk, bHash, bCall;
     TextView phoneField;
     String number = "";
+    final int REQUEST_CALL = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.buttonCall:
                 Toast.makeText(getApplicationContext(), "Calling...", Toast.LENGTH_SHORT).show();
+                initiateCall();
                 break;
         }
         phoneField.setText(number);
@@ -130,6 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onTouchEvent(MotionEvent event){
         this.gDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    public void initiateCall(){
+        String number = phoneField.getText().toString();
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:"+number));
+        startActivity(intent);
     }
 
     class GesturesListener extends GestureDetector.SimpleOnGestureListener {
