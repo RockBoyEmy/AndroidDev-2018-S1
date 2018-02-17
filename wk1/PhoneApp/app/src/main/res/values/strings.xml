@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">Phone App</string>
-
+    <string name="dialButton">Open Dialer</string>
 </resources>
