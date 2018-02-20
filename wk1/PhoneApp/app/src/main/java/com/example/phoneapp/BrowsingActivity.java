@@ -3,11 +3,13 @@ package com.example.phoneapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BrowsingActivity extends AppCompatActivity {
 
@@ -21,23 +23,32 @@ public class BrowsingActivity extends AppCompatActivity {
 
         webAddress = (TextView)findViewById(R.id.webAddressField);
 
+        //if this activity is launched by an app-external clicked link
         Intent selectedThisBrowserIntent = this.getIntent();
-        String intentAddress = selectedThisBrowserIntent.getDataString().toString();
-        if(intentAddress != null && !intentAddress.isEmpty()){
-            webView.loadUrl(intentAddress);
-            webAddress.setText(intentAddress);
+        if(selectedThisBrowserIntent.getDataString() != null){
+            String intentAddress = selectedThisBrowserIntent.getDataString().toString();
+            if(intentAddress != null && !intentAddress.isEmpty()){
+                webView.loadUrl(intentAddress);
+                webAddress.setText(intentAddress);
+            }
         }
-
+        //otherwise normally take the input from the user in-app
         webAddress.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 switch (i) {
                     case (KeyEvent.KEYCODE_ENTER):
-                    browseWeb(webAddress.getText().toString());
+                        if(webAddress.getText() != null){
+                            browseWeb(webAddress.getText().toString());
+                        }
+                        else{
+                            Toast.makeText(BrowsingActivity.this, "You haven't inserted any address", Toast.LENGTH_LONG).show();
+                        }
                 }
                 return false;
             }
         });
+
         webView = (WebView)findViewById(R.id.browserView);
         webView.setWebViewClient(new WebViewClient());
     }
