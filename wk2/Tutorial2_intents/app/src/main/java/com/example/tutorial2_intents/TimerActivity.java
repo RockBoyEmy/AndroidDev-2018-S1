@@ -32,8 +32,8 @@ public class TimerActivity extends AppCompatActivity {
         //Get starting time from intent extras. In case of invalid value, use 10 sec
         Intent i = this.getIntent();
         initialTimer = i.getIntExtra("TimerStart", 10);
-        //String timer = Integer.toString(initialTimer);
-        //Toast.makeText(getApplicationContext(), timer, Toast.LENGTH_SHORT).show();
+        String timer = Integer.toString(initialTimer);
+        //Toast.makeText(getApplicationContext(), "initialTimer is: "+timer, Toast.LENGTH_SHORT).show();
         //Log.d("timer:", timer);
 
         //Timer handle and runnables
@@ -49,7 +49,7 @@ public class TimerActivity extends AppCompatActivity {
         };
         timeHandler.postDelayed(timeRunnable, 1000);
 
-        //Handle and runnable for background flashing color
+        /*//Handle and runnable for background flashing color
         layoutColorHandler = new Handler() {
             public void handleMessage(Message msg) {
                 cl.setBackgroundColor(msg.getData().getInt("Color"));
@@ -62,7 +62,7 @@ public class TimerActivity extends AppCompatActivity {
                 blinkBgColor();
             }
         };
-        layoutColorHandler.postDelayed(layoutColorRunnable, 500);
+        layoutColorHandler.postDelayed(layoutColorRunnable, 500);*/
     }
 
     public void updateTime() {
@@ -92,23 +92,23 @@ public class TimerActivity extends AppCompatActivity {
         timeHandler.sendMessage(message);
         timeHandler.postDelayed(timeRunnable, 1000);
 
-        if (minutesLeft == 0 && secondsLeft == 0) {
+        /*if (minutesLeft == 0 && secondsLeft == 0) {
             layoutColorHandler.postDelayed(layoutColorRunnable, 500);
-        }
+        }*/
     }
 
-        public void blinkBgColor() {
-            Bundle bundle = new Bundle();
-            Message message = new Message();
-            //String timeString = minutesLeft + ":" + secondsLeft;
-            bundle.putInt("Color", Color.RED);
-            message.setData(bundle);
-            layoutColorHandler.sendMessage(message);
-            layoutColorHandler.postDelayed(layoutColorRunnable, 500);
+    /*public void blinkBgColor() {
+        Bundle bundle = new Bundle();
+        Message message = new Message();
+        //String timeString = minutesLeft + ":" + secondsLeft;
+        bundle.putInt("Color", Color.RED);
+        message.setData(bundle);
+        layoutColorHandler.sendMessage(message);
+        layoutColorHandler.postDelayed(layoutColorRunnable, 500);
 
-            bundle.putInt("Color", Color.BLUE);
-            message.setData(bundle);
-            layoutColorHandler.sendMessage(message);
-            layoutColorHandler.postDelayed(layoutColorRunnable, 500);
-    }
+        bundle.putInt("Color", Color.BLUE);
+        message.setData(bundle);
+        layoutColorHandler.sendMessage(message);
+        layoutColorHandler.postDelayed(layoutColorRunnable, 500);
+    }*/
 }
