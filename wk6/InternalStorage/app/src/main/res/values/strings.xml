@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">InternalStorage</string>
+    <string name="save_text">Save Text</string>
+    <string name="clear_text">Clear Text</string>
+    <string name="load_text">Load Text</string>
+</resources>
