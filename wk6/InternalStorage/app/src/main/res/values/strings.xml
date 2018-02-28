@@ -3,4 +3,6 @@
     <string name="save_text">Save Text</string>
     <string name="clear_text">Clear Text</string>
     <string name="load_text">Load Text</string>
+    <string name="multiline_field_hint">Type text here...</string>
+    <string name="filename_field_hint">Filename to save/load to</string>
 </resources>

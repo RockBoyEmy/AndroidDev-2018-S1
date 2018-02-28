@@ -13,6 +13,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/multiline_field_hint"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -40,8 +41,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/multiline_text_field"
-        app:layout_constraintVertical_bias="0.493" />
+        app:layout_constraintTop_toBottomOf="@+id/filename_text_field" />
 
     <Button
         android:id="@+id/button_load"
@@ -51,4 +51,17 @@
         android:text="@string/load_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_clear"
         app:layout_constraintStart_toEndOf="@+id/button_clear" />
+
+    <EditText
+        android:id="@+id/filename_text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:hint="@string/filename_field_hint"
+        android:inputType="textPersonName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/multiline_text_field" />
+
 </android.support.constraint.ConstraintLayout>

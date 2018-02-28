@@ -15,9 +15,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button saveButton, clearButton, loadButton;
-    EditText multiTextField;
+    EditText multiTextField, filenameTextField;
     FileHelper fileHelper;
-    String filename = "myfile";
+    String currentFilename;
     Runnable saveRunnable, loadRunnable;
     Handler loadHandler;
 
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         clearButton = (Button)findViewById(R.id.button_clear);
         loadButton = (Button)findViewById(R.id.button_load);
         multiTextField = (EditText)findViewById(R.id.multiline_text_field);
+        filenameTextField = (EditText)findViewById(R.id.filename_text_field);
 
         saveButton.setOnClickListener(this);
         clearButton.setOnClickListener(this);
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadRunnable = new Runnable() {
             @Override
             public void run() {
-                loadText(filename);
+                loadText(currentFilename);
             }
         };
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveRunnable = new Runnable() {
             @Override
             public void run() {
-                saveText(filename);
+                saveText(currentFilename);
             }
         };
     }
@@ -63,29 +64,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.button_clear:
                 multiTextField.setText("");
+                filenameTextField.setText("");
                 break;
+
             case R.id.button_save:
-                saveRunnable.run();
-                //Log.d("SAVE: ", "Save runnable activated");
-                //Toast.makeText(this, "SAVE: Save runnable activated", Toast.LENGTH_SHORT).show();
+                if(multiTextField.getText().toString().isEmpty()){
+                    Toast.makeText(this, "SAVE: Text Field is empty", Toast.LENGTH_SHORT).show();
+                    //Log.d("SAVE: ", "Text Field is empty");
+                }
+                else if(filenameTextField.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "SAVE: Filename Field is empty", Toast.LENGTH_SHORT).show();
+                    //Log.d("SAVE: ", "Filename Field is empty");
+                }
+                else
+                {
+                    currentFilename = filenameTextField.getText().toString();
+                    saveRunnable.run();
+                    //Log.d("SAVE: ", "Save runnable activated");
+                }
                 break;
+
             case R.id.button_load:
-                loadHandler.post(loadRunnable);
-                //Toast.makeText(this, "LOAD: Load handler activated", Toast.LENGTH_SHORT).show();
+                if(filenameTextField.getText().toString().isEmpty()) {
+                    Toast.makeText(this, "LOAD: Filename Field is empty", Toast.LENGTH_SHORT).show();
+                    //Log.d("SAVE: ", "Filename Field is empty");
+                }
+                else{
+                    currentFilename = filenameTextField.getText().toString();
+                    loadHandler.post(loadRunnable);
+                    //Toast.makeText(this, "LOAD: Load handler activated", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
     public void saveText(String file){
-        if(multiTextField.getText().toString().isEmpty()){
-            Toast.makeText(this, "SAVE: Text Field is empty", Toast.LENGTH_SHORT).show();
-            //Log.d("SAVE: ", "Text Field is empty");
-        }
-        else{
-            fileHelper.saveToInternalStorage(file, multiTextField.getText().toString());
-        }
+        fileHelper.saveToInternalStorage(file, multiTextField.getText().toString());
     }
 
     public void loadText(String file){
+        currentFilename = filenameTextField.getText().toString();
         Bundle loadTextBundle = new Bundle();
         Message loadTextMessage = new Message();
         String loadedText = fileHelper.loadFromInternalStorage(file);
