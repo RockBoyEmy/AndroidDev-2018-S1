@@ -32,7 +32,8 @@ public class FileHelper {
             fos.write(data.getBytes());
             // Close output stream.
             fos.close();
-            Log.d("DEBUG", "file saved!");
+            //Log.d("DEBUG", "file saved!");
+            Toast.makeText(parentContext, "DEBUG: file saved!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             // Handle error messages here!
             e.printStackTrace();
@@ -62,7 +63,8 @@ public class FileHelper {
             // Close the stream and the reader.
             reader.close();
             fis.close();
-            Log.d("DEBUG", "file loaded!");
+            //Log.d("DEBUG", "file loaded!");
+            Toast.makeText(parentContext, "DEBUG: file loaded!", Toast.LENGTH_SHORT).show();
             return result;
         } catch (FileNotFoundException e){
             e.printStackTrace();

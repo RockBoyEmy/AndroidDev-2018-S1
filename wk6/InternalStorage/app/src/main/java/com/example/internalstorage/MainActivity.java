@@ -1,8 +1,12 @@
 package com.example.internalstorage;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +18,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText multiTextField;
     FileHelper fileHelper;
     String filename = "myfile";
+    Runnable saveRunnable, loadRunnable;
+    Handler loadHandler;
 
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,26 +36,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saveButton.setOnClickListener(this);
         clearButton.setOnClickListener(this);
         loadButton.setOnClickListener(this);
+
+        //runnable and handler for loading back the saved text in parallel
+        loadHandler = new Handler(){
+            public void handleMessage(Message msg){
+                multiTextField.setText(msg.getData().getString("Text"));
+            }
+        };
+        loadRunnable = new Runnable() {
+            @Override
+            public void run() {
+                loadText(filename);
+            }
+        };
+
+        //runnable for performing the text save operation in a separate thread
+        saveRunnable = new Runnable() {
+            @Override
+            public void run() {
+                saveText(filename);
+            }
+        };
     }
 
-    public void onClick(View v) {
+    public void onClick(View v){
         switch (v.getId()){
             case R.id.button_clear:
                 multiTextField.setText("");
                 break;
             case R.id.button_save:
-                if(multiTextField.getText().toString().isEmpty()){
-                    Toast.makeText(this, "SAVE: Text Field is empty", Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                else{
-                    fileHelper.saveToInternalStorage(filename, multiTextField.getText().toString());
-                    break;
-                }
+                saveRunnable.run();
+                //Log.d("SAVE: ", "Save runnable activated");
+                //Toast.makeText(this, "SAVE: Save runnable activated", Toast.LENGTH_SHORT).show();
+                break;
             case R.id.button_load:
-                String loadedText = fileHelper.loadFromInternalStorage(filename);
-                multiTextField.setText(loadedText);
+                loadHandler.post(loadRunnable);
+                //Toast.makeText(this, "LOAD: Load handler activated", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    public void saveText(String file){
+        if(multiTextField.getText().toString().isEmpty()){
+            Toast.makeText(this, "SAVE: Text Field is empty", Toast.LENGTH_SHORT).show();
+            //Log.d("SAVE: ", "Text Field is empty");
+        }
+        else{
+            fileHelper.saveToInternalStorage(file, multiTextField.getText().toString());
+        }
+    }
+
+    public void loadText(String file){
+        Bundle loadTextBundle = new Bundle();
+        Message loadTextMessage = new Message();
+        String loadedText = fileHelper.loadFromInternalStorage(file);
+        loadTextBundle.putString("Text", loadedText);
+        loadTextMessage.setData(loadTextBundle);
+        loadHandler.sendMessage(loadTextMessage);
     }
 }
