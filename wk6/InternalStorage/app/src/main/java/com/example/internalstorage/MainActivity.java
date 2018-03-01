@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             == PackageManager.PERMISSION_GRANTED) {
                         // Permission has already been granted
                         // Start the intended actions
+                        multiTextField.setText("");
+                        filenameTextField.setText("");
+                        saveLoadExternal();
                     }
                     else{
                         // Should we show an explanation if not granted?
@@ -69,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             ActivityCompat.requestPermissions(MainActivity.this,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     MY_PERMISSIONS_REQUEST_EXTERNAL_STORAGE);
-
                         }
                         else {
                             // No explanation needed; request the permission
@@ -150,7 +152,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void saveText(String file){
         fileHelper.saveToInternalStorage(file, multiTextField.getText().toString());
     }
-    public void saveTextExternal(){}
+    public void saveTextExternal(String file){
+        if(fileHelper.isExternalStorageWritable()){
+            fileHelper.saveToExternalStorage(file, multiTextField.getText().toString());
+        }
+        else{
+            Toast.makeText(this, "Save External: storageNotWritable", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void loadText(String file){
         currentFilename = filenameTextField.getText().toString();
         Bundle loadTextBundle = new Bundle();
@@ -160,7 +169,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadTextMessage.setData(loadTextBundle);
         loadHandler.sendMessage(loadTextMessage);
     }
-    public void loadTextExternal(){}
+    public void loadTextExternal(String file){
+        if(fileHelper.isExternalStorageReadable()){
+            currentFilename = filenameTextField.getText().toString();
+            Bundle loadTextBundle = new Bundle();
+            Message loadTextMessage = new Message();
+            String loadedText = fileHelper.loadFromInternalStorage(file);
+            loadTextBundle.putString("Text", loadedText);
+            loadTextMessage.setData(loadTextBundle);
+            loadHandler.sendMessage(loadTextMessage);
+        }
+        else{
+            Toast.makeText(this, "Load External: storageNotWritable nor readable", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -183,4 +205,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // permissions this app might request.
         }
     }
+
+    public void saveLoadExternal(){
+        loadHandler = new Handler(){
+            public void handleMessage(Message msg){
+                multiTextField.setText(msg.getData().getString("Text"));
+            }
+        };
+        loadRunnable = new Runnable() {
+            @Override
+            public void run() {
+                loadTextExternal(currentFilename);
+            }
+        };
+
+        //runnable for performing the text save operation in a separate thread
+        saveRunnable = new Runnable() {
+            @Override
+            public void run() {
+                saveTextExternal(currentFilename);
+            }
+        };
+    }
+
+
 }
